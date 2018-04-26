@@ -66,6 +66,8 @@ module.exports = {
                         users
                         .create({
                             username: req.body.username,
+                            firstname: req.body.firstname,
+                            lastname: req.body.lastname,
                             password: hash,
                         })
                         .then(function(result){
@@ -83,12 +85,7 @@ module.exports = {
                             })
                         }) 
                 }
-            })
-            .catch(function(err){
-                res.status(500).json({
-                    message: err
-                })
-            })            
+            })           
         }  
     }
 }
