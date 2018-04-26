@@ -1,5 +1,5 @@
 <template>
-  <div class="mainPage">
+  <div class="category">
     <div class="row">
       <div class="mainBody col-9">
           <div class="col-12">
@@ -17,7 +17,7 @@
                         {{post.post_text}}
                     </div>
                     <div class="category">
-                      <router-link class="headerQuestion btn btn-link" :to="{ name: 'category', params: {category: post.category}}">{{post.category}}</router-link>
+                      <router-link class="headerQuestion btn btn-link" :to="{ name: '/category', params: {id: post._id}}">{{post.category}}</router-link>
                     </div>
                     <div class="postBy">
                         Post by: <strong>{{post.username}}</strong> at: {{post.createdAt}}
@@ -87,28 +87,24 @@ import {mapState} from 'vuex'
 import axios from 'axios'
 
 export default {
-  name: 'mainPage',
-  data () {
+  name: 'category',
+  computed: mapState([
+    'postCategory'
+  ]),
+  data() {
     return {
       username: localStorage.getItem('username'),
       formData: new FormData(),
       post_header: '',
       post_content: '',
       image_url: '',
-      category: ''
+      category: '',
+      posts: this.postCategory
     }
   },
-  computed: mapState([
-    'posts'
-  ]),
-  created () {
-    this.$store.dispatch('getAllPosts')
-    let token = localStorage.getItem('token')
-    if (token) {
-      this.$store.commit('changeStatusTrue')
-    } else {
-      this.$router.push('/')
-    }
+  props: ['category'],
+  created() {
+    this.$store.dispatch('getPostByCategory', this.category)
   },
   methods: {
     addPost: function(){
@@ -217,7 +213,6 @@ export default {
 </script>
 
 <style>
-
 button.btn.btn-link{
     font-size: 11px
 }

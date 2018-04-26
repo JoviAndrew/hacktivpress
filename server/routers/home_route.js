@@ -8,7 +8,8 @@ router.get('/show/:id', home.getOnePost);
 
 router.get('/show-by-auth', home.getByAuthor);
 
-// router.get('/show-category', home.showByCategory)
+router.get('/show-category', home.showByCategory)
+
 router.post('/upload', 
             uploadFile.multer.single('img'),
             uploadFile.sendUploadToGCS,

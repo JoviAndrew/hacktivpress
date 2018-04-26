@@ -33,9 +33,22 @@ module.exports = {
         })
       })
     },
-    // showByCategory(req, res){
-
-    // },
+    showByCategory(req, res){
+      articles.find({
+        category: req.body.category
+      })
+      .then(function(postData){
+        res.status(200).json({
+          message: 'Success getting post',
+          article: postData
+        })
+      })
+      .catch(function(err){
+        res.status(500).json({
+          message: err
+        })
+      })
+    },
     getByAuthor(req, res){
       const token = req.headers.token
       jwt.verify(token, process.env.SECRET, function(err, result){
@@ -73,12 +86,14 @@ module.exports = {
 						})
 					}
 					else{
+            console.log(req.body)
 							articles.create({
 								user: result.id,
 								header: req.body.header,
 								post_text: req.body.postText,
                 username: result.username,
-                img: req.body.img
+                img: req.body.img,
+                category: req.body.category
 							})
 							.then(function(response){
 								res.status(200).json({
@@ -103,7 +118,7 @@ module.exports = {
 						updateOne: {
 							filter: {
 								'_id': id,
-								user: result.id
+								// user: result.id
 							},
 							update: {
 								header: req.body.header,
@@ -141,7 +156,7 @@ module.exports = {
 						deleteOne: {
 							filter: {
 								'_id': id,
-								user: result.id
+								// user: result.id
 							}
 						}
 					}])

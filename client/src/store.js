@@ -3,11 +3,22 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import swal from 'sweetalert'
+import axios from 'axios'
+
 export default new Vuex.Store({
   state: {
+    posts: [],
+    postCategory: [],
     isLogin: false
   },
   mutations: {
+    renewCategoryPosts (state, postData){
+      state.postCategory = postData
+    },
+    renewPosts (state, postData) {       
+      state.posts = postData
+    },
     changeStatusTrue (state) {
       state.isLogin = true
     },
@@ -16,16 +27,26 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getAllPosts(){
+    getAllPosts({commit}){
 			let self = this
-			axios.get('http://localhost/home/show')
+			axios.get('http://localhost:3000/home/show')
 			.then(function(postData){
-				self.posts = postData.data.data                
+			  commit('renewPosts', postData.data.data)
 			})
 			.catch(function(err){
-				alert('Error has occured during retrival of data')
+				swal('Error while getting posts', err, 'warning')
 				console.log(err)
 			})
-		},
+    },
+    getPostByCategory({commit}, category){
+      axios.get('http://localhost:3000/home/show-category', {category: category})
+			.then(function(postData){
+			  commit('renewCategoryPosts', postData.data.data)
+			})
+			.catch(function(err){
+				swal('Error while getting posts', err, 'warning')
+				console.log(err)
+			})
+    }
   }
 })

@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Main from './views/Main.vue'
+import Category from './views/Category.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,12 @@ export default new Router({
       path: '/main',
       name: 'main',
       component: Main
+    },
+    {
+      path: '/main/:category',
+      name: 'category',
+      props: true,
+      component: Category
     }
   ]
 })
