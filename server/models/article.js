@@ -6,7 +6,8 @@ let articleSchema = mongoose.Schema({
     username: String,
     header: String,
     post_text: String,
-    img: String
+    img: String,
+    category: String
 }, {
     timestamps: true
 })

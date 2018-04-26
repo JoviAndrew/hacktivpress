@@ -1,12 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar justify-content-between navbar-light bg-light">
+          <strong><a class="navbar-brand navbar-nav mr-auto" href="">HacktivPress</a></strong>
+            <button v-if="isLogin" class="btn btn-outline-danger my-2 my-sm-0" @click="doLogout">Log out</button>
+            <button v-else class="btn btn-outline-success my-2 my-sm-0" @click="gotoLogin">Log in</button>
+        </nav>
+      </div>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex'
+
+export default {
+  computed: mapState([
+    'isLogin'
+  ]),
+  methods: {
+    gotoLogin () {
+      this.$router.push('/login')
+    },
+    doLogout() {
+      localStorage.clear()
+      this.$router.push('/')
+      this.$store.commit('changeStatusFalse')
+    }
+  }
+}
+</script>
+
 
 <style>
 #app {
