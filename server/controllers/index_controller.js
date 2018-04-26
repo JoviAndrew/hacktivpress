@@ -25,7 +25,7 @@ module.exports = {
                         res.json({
                             message: 'Success login',
                             token: token,
-                            username: userData.username
+                            username: userData.username,
                         })
                     }
                 })
@@ -71,6 +71,7 @@ module.exports = {
                             password: hash,
                         })
                         .then(function(result){
+                            let token = jwt.sign({id: userData._id, username: userData.username}, process.env.SECRET)
                             res.status(200).json({
                                 message: "success register a new user",
                                 result: result,

@@ -37,25 +37,34 @@ module.exports = {
 
     // },
     getByAuthor(req, res){
-      let authId = req.params.authId
-      articles.find({
-        authorId: authId
-      })
-      .then(function(postData){
-        res.status(200).json({
-          message: 'Success getting article by author',
-          article: postData
-        })
-      })
-      .catch(function(err){
-        res.status(500).json({
-          message: 'error while getting article by author',
-          err: err
-        })
+      const token = req.headers.token
+      jwt.verify(token, process.env.SECRET, function(err, result){
+        if(err){
+          res.send({
+            err: err,
+            message: 'Something went wrong with jwt'
+          })
+        } else {
+          articles.find({
+            user: result.id
+          })
+          .then(function(postData){
+            res.status(200).json({
+              message: 'Success getting article by author',
+              article: postData
+            })
+          })
+          .catch(function(err){
+            res.status(500).json({
+              message: 'error while getting article by author',
+              err: err
+            })
+          })
+        }
       })
     },
     addPost(req, res){
-			const token = req.headers.token
+      const token = req.headers.token
 			jwt.verify(token, process.env.SECRET, function(err, result){
 					if(err){
 						res.send({
@@ -68,7 +77,8 @@ module.exports = {
 								user: result.id,
 								header: req.body.header,
 								post_text: req.body.postText,
-								username: req.body.username
+                username: result.username,
+                img: req.body.img
 							})
 							.then(function(response){
 								res.status(200).json({
@@ -93,11 +103,12 @@ module.exports = {
 						updateOne: {
 							filter: {
 								'_id': id,
-								'user': result.id
+								user: result.id
 							},
 							update: {
 								header: req.body.header,
-								post_text: req.body.postText
+                post_text: req.body.postText,
+                img: req.body.img
 							}
 						}
 					}])
@@ -119,7 +130,6 @@ module.exports = {
 		deletePost(req, res){
 			let id = req.params.id
 			const token = req.headers.token
-			console.log(token)
 			jwt.verify(token, process.env.SECRET, function(err, result){
 				if(err){
 					res.send({
@@ -131,7 +141,7 @@ module.exports = {
 						deleteOne: {
 							filter: {
 								'_id': id,
-								'user': result.id
+								user: result.id
 							}
 						}
 					}])
@@ -149,5 +159,11 @@ module.exports = {
 					})
 				}
 			})
-		}
+    },
+    uploadImg(req, res){
+      res.json({
+          message: 'Successfully upload',
+          link: req.file.cloudStoragePublicUrl
+      })
+    }
 }

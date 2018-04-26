@@ -6,7 +6,7 @@ router.get('/show', home.getAllPosts);
 
 router.get('/show/:id', home.getOnePost);
 
-router.get('/show/:authId', home.getByAuthor);
+router.get('/show-by-auth', home.getByAuthor);
 
 // router.get('/show-category', home.showByCategory)
 router.post('/upload', 
@@ -14,12 +14,9 @@ router.post('/upload',
             uploadFile.sendUploadToGCS,
             home.uploadImg)
 
-router.post('/post',home.addPost);
+router.post('/post', home.addPost);
 
-router.put('/update/:id',
-            uploadFile.multer.single('img'), 
-            uploadFile.sendUploadToGCS,
-            home.updatePost);
+router.put('/update/:id', home.updatePost);
 
 router.delete('/delete/:id', home.deletePost);
 
