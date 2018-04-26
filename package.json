@@ -1,0 +1,30 @@
+{
+  "name": "hacktivpress",
+  "version": "1.0.0",
+  "description": "Final Livecode Hacktiv8 p2",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mongoose": "^5.0.16",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoviAndrew/hacktivpress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoviAndrew/hacktivpress/issues"
+  },
+  "homepage": "https://github.com/JoviAndrew/hacktivpress#readme"
+}
